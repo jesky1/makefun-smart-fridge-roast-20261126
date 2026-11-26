@@ -4,7 +4,7 @@ import { mkdirSync as makeDir, writeFileSync as writeFile } from "node:fs";
 
 // The roast, written fresh in this session: my smart fridge treats a
 // 2 a.m. ice cream run as a security threat and locks the freezer over it.
-const ROAST =
+export const ROAST =
   "My smart fridge locked the freezer for 'suspicious snacking' — apparently my 2 a.m. ice cream counts as a security incident.";
 
 // The gate in the rules: entry.txt is UTF-8 text, 1–160 characters,
@@ -21,6 +21,12 @@ function checkRoast(line: string): void {
   }
   if (line.trim() === "") {
     throw new Error("roast is blank");
+  }
+  if (line !== line.trim()) {
+    throw new Error("roast must not start or end with whitespace");
+  }
+  if (!/fridge/i.test(line)) {
+    throw new Error("roast must name the fridge");
   }
   if (line.indexOf("\n") !== -1 || line.indexOf("\r") !== -1) {
     throw new Error("roast must be one line");
